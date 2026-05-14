@@ -15,8 +15,10 @@ import {
   Layers,
   Lightbulb,
   LineChart as LineIcon,
+  Menu,
   Network,
   Timer,
+  X,
   Zap,
 } from "lucide-react";
 import {
@@ -33,6 +35,7 @@ import {
   YAxis,
   ZAxis,
 } from "recharts";
+import { benchmarkData, importedUsageData, rateData, sourceNotes } from "./data/energy";
 
 const OEB_URL = "https://www.oeb.ca/consultations-and-projects/policy-initiatives-and-consultations/defining-ontarios-typical";
 const TORONTO_HYDRO_RATES_URL = "https://www.torontohydro.com/for-home/rates";
@@ -56,20 +59,6 @@ const navItems = [
   ["Research", "research"],
   ["Solutions", "solutions"],
   ["Report", "report"],
-];
-
-const priceData = [
-  { label: "TOU Off", value: 9.8 },
-  { label: "TOU Mid", value: 15.7 },
-  { label: "TOU Peak", value: 20.3 },
-  { label: "ULO Night", value: 3.9 },
-  { label: "ULO Peak", value: 39.1 },
-];
-
-const benchmarkData = [
-  { label: "Efficient Scenario", value: 620 },
-  { label: "Ontario Benchmark", value: 750 },
-  { label: "High-Use Scenario", value: 900 },
 ];
 
 const demandCurve = [
@@ -159,6 +148,12 @@ const tooltipStyle = {
   border: "1px solid rgba(212, 180, 112, 0.28)",
   borderRadius: "8px",
   color: "#f8f5ee",
+};
+
+type ChartPayloadItem = {
+  name?: string;
+  value?: number | string;
+  payload?: Record<string, unknown>;
 };
 
 function useMounted() {
@@ -266,7 +261,70 @@ function ChartShell({ children, className = "h-80" }: { children: React.ReactNod
   );
 }
 
+function MatrixTooltip({
+  active,
+  payload,
+}: {
+  active?: boolean;
+  payload?: ChartPayloadItem[];
+}) {
+  if (!active || !payload?.length) {
+    return null;
+  }
+
+  const item = payload[0]?.payload;
+
+  if (!item) {
+    return null;
+  }
+
+  return (
+    <div className="rounded-lg border border-amber-200/30 bg-[#11100d] px-4 py-3 text-sm text-stone-200 shadow-2xl">
+      <p className="font-semibold text-amber-100">{String(item.name)}</p>
+      <p className="mt-2 font-mono text-xs uppercase text-stone-400">Cost {String(item.cost)}/5</p>
+      <p className="font-mono text-xs uppercase text-stone-400">Impact {String(item.impact)}/5</p>
+      <p className="font-mono text-xs uppercase text-stone-400">Difficulty {String(item.difficulty)}/5</p>
+    </div>
+  );
+}
+
+function MetricCard({
+  label,
+  value,
+  detail,
+}: {
+  label: string;
+  value: string;
+  detail: string;
+}) {
+  return (
+    <Card className="min-h-40">
+      <p className="font-mono text-[11px] uppercase text-stone-500">{label}</p>
+      <p className="mt-5 text-4xl font-semibold text-stone-50">{value}</p>
+      <p className="mt-4 text-sm leading-6 text-stone-400">{detail}</p>
+    </Card>
+  );
+}
+
 export default function PowerInPracticeWebsite() {
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const [shiftedKwh, setShiftedKwh] = useState(50);
+  const monthlySavings = (shiftedKwh * (39.1 - 3.9)) / 100;
+  const weeklyKwh = importedUsageData.reduce((sum, day) => sum + day.total, 0);
+  const projectedMonthlyKwh = (weeklyKwh / importedUsageData.length) * 30;
+  const peakKwh = importedUsageData.reduce((sum, day) => sum + day.eveningPeak, 0);
+  const peakShare = (peakKwh / weeklyKwh) * 100;
+  const overnightKwh = importedUsageData.reduce((sum, day) => sum + day.overnight, 0);
+  const importedUloCost =
+    importedUsageData.reduce(
+      (sum, day) =>
+        sum +
+        day.overnight * 0.039 +
+        (day.morning + day.midday + day.lateEvening) * 0.098 +
+        day.eveningPeak * 0.391,
+      0,
+    ) * 4.33;
+
   return (
     <main className="min-h-screen overflow-hidden bg-[#090806] text-stone-100 selection:bg-amber-200 selection:text-black">
       <div className="fixed inset-0 -z-10 bg-[linear-gradient(rgba(255,255,255,.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.035)_1px,transparent_1px)] [background-size:72px_72px]" />
@@ -287,7 +345,30 @@ export default function PowerInPracticeWebsite() {
               </a>
             ))}
           </div>
+          <button
+            type="button"
+            aria-label={isMobileNavOpen ? "Close navigation" : "Open navigation"}
+            aria-expanded={isMobileNavOpen}
+            onClick={() => setIsMobileNavOpen((open) => !open)}
+            className="flex h-10 w-10 items-center justify-center border border-stone-700 text-stone-100 transition hover:border-amber-200/70 hover:bg-stone-900 lg:hidden"
+          >
+            {isMobileNavOpen ? <X size={18} /> : <Menu size={18} />}
+          </button>
         </div>
+        {isMobileNavOpen && (
+          <div className="mx-auto mt-3 grid max-w-7xl grid-cols-2 gap-2 border-t border-stone-800 pt-3 font-mono text-[11px] uppercase text-stone-400 sm:grid-cols-3 lg:hidden">
+            {navItems.map(([label, id]) => (
+              <a
+                key={id}
+                href={`#${id}`}
+                onClick={() => setIsMobileNavOpen(false)}
+                className="border border-stone-800 bg-stone-950/70 px-3 py-3 transition hover:border-amber-200/50 hover:text-amber-100"
+              >
+                {label}
+              </a>
+            ))}
+          </div>
+        )}
       </nav>
 
       <header id="home" className="relative px-5 pb-16 pt-28 sm:px-10 lg:px-20">
@@ -364,12 +445,92 @@ export default function PowerInPracticeWebsite() {
         </Card>
       </Section>
 
-      <Section id="data" eyebrow="Data Synthesis" title="Pricing Creates a Timing Problem" subtitle="The same amount of electricity can have very different cost and grid impact depending on when it is used.">
-        <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
-          <ChartPanel title="TOU vs ULO Price Comparison" icon={BarChart3}>
+      <Section id="data" eyebrow="Live Dashboard" title="Imported Energy Summary" subtitle="A dashboard view combines public Ontario electricity rates with an imported household usage profile, making peak timing, cost exposure, and load shifting visible at a glance.">
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <MetricCard label="Imported week" value={`${weeklyKwh.toFixed(1)} kWh`} detail={`${((overnightKwh / weeklyKwh) * 100).toFixed(1)}% of usage is already shifted into the overnight window.`} />
+          <MetricCard label="Monthly projection" value={`${Math.round(projectedMonthlyKwh)} kWh`} detail="Projected from the imported week and compared against the OEB 750 kWh benchmark." />
+          <MetricCard label="Evening peak share" value={`${peakShare.toFixed(1)}%`} detail="Portion of weekly usage landing in the highest-cost ULO period." />
+          <MetricCard label="Estimated ULO cost" value={`$${importedUloCost.toFixed(2)}`} detail="Energy-charge estimate using Toronto Hydro published ULO prices." />
+        </div>
+
+        <div className="mt-6 grid gap-6 xl:grid-cols-[1.35fr_.65fr]">
+          <ChartPanel title="Imported Daily Usage Profile" icon={BarChart3}>
             <ChartShell className="h-[430px]">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={priceData}>
+                <BarChart data={importedUsageData}>
+                  <CartesianGrid stroke="rgba(255,255,255,.08)" vertical={false} />
+                  <XAxis dataKey="day" stroke="#a8a29e" tickLine={false} axisLine={false} />
+                  <YAxis stroke="#a8a29e" tickLine={false} axisLine={false} label={{ value: "kWh", angle: -90, position: "insideLeft", fill: "#a8a29e" }} />
+                  <Tooltip contentStyle={tooltipStyle} />
+                  <Bar dataKey="overnight" name="Overnight" stackId="usage" fill="#7dd3fc" />
+                  <Bar dataKey="morning" name="Morning" stackId="usage" fill="#a7f3d0" />
+                  <Bar dataKey="midday" name="Midday" stackId="usage" fill="#fef08a" />
+                  <Bar dataKey="eveningPeak" name="Evening peak" stackId="usage" fill="#d6ad60" />
+                  <Bar dataKey="lateEvening" name="Late evening" stackId="usage" fill="#c4b5fd" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </ChartShell>
+          </ChartPanel>
+
+          <div className="grid gap-6">
+            <Card>
+              <p className="font-mono text-[11px] uppercase text-stone-500">Current Rate Spread</p>
+              <h3 className="mt-5 text-6xl font-semibold text-amber-100">3.9c</h3>
+              <p className="mt-2 text-stone-400">ULO overnight rate per kWh.</p>
+              <div className="my-6 h-px bg-stone-800" />
+              <h3 className="text-6xl font-semibold text-stone-50">39.1c</h3>
+              <p className="mt-2 text-stone-400">ULO on-peak rate per kWh.</p>
+            </Card>
+            <Card>
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="font-mono text-[11px] uppercase text-stone-500">Peak Shift Calculator</p>
+                  <h3 className="mt-3 text-4xl font-semibold text-amber-100">${monthlySavings.toFixed(2)}</h3>
+                </div>
+                <p className="font-mono text-[11px] uppercase text-stone-500">{shiftedKwh} kWh / month</p>
+              </div>
+              <label htmlFor="shifted-kwh" className="mt-6 block text-sm text-stone-400">
+                Monthly electricity shifted from ULO on-peak to overnight
+              </label>
+              <input
+                id="shifted-kwh"
+                type="range"
+                min="0"
+                max="120"
+                step="5"
+                value={shiftedKwh}
+                onChange={(event) => setShiftedKwh(Number(event.target.value))}
+                className="mt-4 w-full accent-amber-100"
+              />
+              <div className="mt-3 flex justify-between font-mono text-[10px] uppercase text-stone-600">
+                <span>0 kWh</span>
+                <span>120 kWh</span>
+              </div>
+            </Card>
+          </div>
+        </div>
+
+        <div className="mt-6 grid gap-6 lg:grid-cols-[.8fr_1.2fr]">
+          <Card>
+            <h3 className="mb-5 text-xl font-semibold">Imported Data Sources</h3>
+            <div className="space-y-4">
+              {sourceNotes.map((source) => (
+                <div key={source.label} className="border border-stone-800 bg-stone-950/45 p-4">
+                  <p className="font-semibold text-stone-100">{source.label}</p>
+                  <p className="mt-2 text-sm leading-6 text-stone-400">{source.detail}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <SourceLink href={TORONTO_HYDRO_RATES_URL}>Toronto Hydro rates</SourceLink>
+              <SourceLink href={OEB_URL}>OEB benchmark</SourceLink>
+            </div>
+          </Card>
+
+          <ChartPanel title="Published Rate Comparison" icon={Gauge}>
+            <ChartShell>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={rateData}>
                   <CartesianGrid stroke="rgba(255,255,255,.08)" vertical={false} />
                   <XAxis dataKey="label" stroke="#a8a29e" interval={0} angle={-12} textAnchor="end" height={65} tickLine={false} axisLine={false} />
                   <YAxis stroke="#a8a29e" tickLine={false} axisLine={false} label={{ value: "c / kWh", angle: -90, position: "insideLeft", fill: "#a8a29e" }} />
@@ -379,22 +540,6 @@ export default function PowerInPracticeWebsite() {
               </ResponsiveContainer>
             </ChartShell>
           </ChartPanel>
-
-          <div className="grid gap-6">
-            <Card>
-              <p className="font-mono text-[11px] uppercase text-stone-500">Critical Contrast</p>
-              <h3 className="mt-5 text-6xl font-semibold text-amber-100">3.9c</h3>
-              <p className="mt-2 text-stone-400">ULO overnight rate per kWh.</p>
-              <div className="my-6 h-px bg-stone-800" />
-              <h3 className="text-6xl font-semibold text-stone-50">39.1c</h3>
-              <p className="mt-2 text-stone-400">ULO on-peak rate per kWh.</p>
-            </Card>
-            <Card>
-              <p className="text-base leading-8 text-stone-300">Ontario&apos;s pricing model demonstrates an important engineering principle: demand matters as much as consumption.</p>
-              <p className="mt-4 border-l-2 border-amber-200 pl-4 text-base leading-8 text-amber-100">Shifting 50 kWh/month from 39.1c to 3.9c saves about $17.60/month.</p>
-              <div className="mt-6"><SourceLink href={TORONTO_HYDRO_RATES_URL}>Official Toronto Hydro rate page</SourceLink></div>
-            </Card>
-          </div>
         </div>
       </Section>
 
@@ -418,7 +563,7 @@ export default function PowerInPracticeWebsite() {
                   className="object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0"
                 />
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.78))]" />
-                <div className="absolute bottom-0 left-0 right-0 translate-y-2 border-t border-stone-700 bg-[#090806]/90 p-5 opacity-0 transition duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                <div className="absolute bottom-0 left-0 right-0 border-t border-stone-700 bg-[#090806]/90 p-5 opacity-100 transition duration-300 md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 md:group-focus-within:translate-y-0 md:group-focus-within:opacity-100">
                   <p className="mb-2 font-mono text-[10px] uppercase text-amber-100">Engineering Notes</p>
                   <p className="text-sm leading-6 text-stone-200">{photo.note}</p>
                 </div>
@@ -542,7 +687,7 @@ export default function PowerInPracticeWebsite() {
                   <XAxis type="number" dataKey="cost" name="Cost" domain={[0, 6]} stroke="#a8a29e" tickLine={false} axisLine={false} />
                   <YAxis type="number" dataKey="impact" name="Impact" domain={[0, 6]} stroke="#a8a29e" tickLine={false} axisLine={false} />
                   <ZAxis type="number" dataKey="difficulty" range={[120, 520]} />
-                  <Tooltip cursor={{ strokeDasharray: "3 3" }} contentStyle={tooltipStyle} />
+                  <Tooltip cursor={{ strokeDasharray: "3 3" }} content={<MatrixTooltip />} />
                   <Scatter data={solutionMatrix} fill="#d6ad60" />
                 </ScatterChart>
               </ResponsiveContainer>
