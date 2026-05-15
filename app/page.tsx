@@ -44,6 +44,10 @@ const IESO_DEMAND_URL = "https://www.ieso.ca/power-data/demand-overview/real-tim
 const NOCTIS_URL = "https://noctis-lake.vercel.app/";
 const LUMEN_SHIFT_URL = "https://lumen-shift.vercel.app/";
 const SMARTENERGY_URL = "https://smart-energy-dashboard-nine.vercel.app/";
+const DARKSKY_LIGHTING_URL = "https://darksky.org/resources/guides-and-how-tos/values-centered-outdoor-lighting/";
+const NASA_BLACK_MARBLE_URL = "https://ladsweb.modaps.eosdis.nasa.gov/missions-and-measurements/science-domain/nighttime-lights";
+const TORONTO_OPEN_DATA_URL = "https://open.toronto.ca/";
+const OSM_ATTRIBUTION_URL = "https://www.openstreetmap.org/about/legal";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 22 },
@@ -936,6 +940,36 @@ export default function PowerInPracticeWebsite() {
                   </span>
                 </div>
               </div>
+            </motion.a>
+          ))}
+        </div>
+      </Section>
+
+      <Section id="sources" eyebrow="Sources + Learning" title="References Behind the Notes" subtitle="A compact reading list for the data, maps, and lighting ideas used across the page.">
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {[
+            [OEB_URL, "Ontario electricity rates", "Official rate and typical-customer context used for household comparisons.", "Energy rates"],
+            [IESO_DEMAND_URL, "IESO real-time demand reports", "Ontario system-demand data for understanding peak load and grid timing.", "Grid demand"],
+            [DARKSKY_LIGHTING_URL, "DarkSky outdoor lighting guide", "Background on glare, over-lighting, shielding, dimming, and responsible controls.", "Light pollution"],
+            [NASA_BLACK_MARBLE_URL, "NASA Black Marble", "Nighttime-light data context for thinking about artificial light at city and regional scale.", "Night light data"],
+            [TORONTO_OPEN_DATA_URL, "City of Toronto Open Data", "A starting point for Toronto public datasets used in maps and urban research.", "Local data"],
+            [OSM_ATTRIBUTION_URL, "OpenStreetMap attribution", "Map attribution and licensing reference for open map-based project work.", "Map source"],
+          ].map(([href, title, body, label]) => (
+            <motion.a
+              key={title}
+              href={href}
+              target="_blank"
+              rel="noreferrer"
+              variants={fadeUp}
+              whileHover={{ y: -5 }}
+              className="group min-h-64 border border-stone-800 bg-[#11100d]/85 p-6 shadow-[0_18px_60px_rgba(0,0,0,0.32)] transition hover:border-amber-200/40"
+            >
+              <p className="font-mono text-[11px] uppercase text-amber-100/75">{label}</p>
+              <h3 className="mt-14 text-2xl font-semibold leading-tight text-stone-50">{title}</h3>
+              <p className="mt-4 text-sm leading-6 text-stone-400">{body}</p>
+              <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-amber-100">
+                Open source <ExternalLink size={15} />
+              </span>
             </motion.a>
           ))}
         </div>
