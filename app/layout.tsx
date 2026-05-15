@@ -13,13 +13,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Power in Practice | Electricity Efficiency Study",
+  title: "Power in Practice | Everyday Electricity Notes",
   description:
-    "A Toronto-based household and urban electricity efficiency study connecting field observation, Ontario pricing data, and engineering response.",
+    "A Toronto-based personal study of electricity habits, night photography, public data, and the small systems behind everyday power use.",
   openGraph: {
     title: "Power in Practice",
     description:
-      "Rethinking electricity use in everyday systems through field photography, pricing analysis, and engineering design.",
+      "Looking at everyday electricity through field photography, pricing data, and small practical experiments.",
     url: "https://power-in-practice.vercel.app",
     siteName: "Power in Practice",
     type: "website",

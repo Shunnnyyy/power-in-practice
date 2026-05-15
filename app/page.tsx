@@ -41,6 +41,9 @@ const OEB_URL = "https://www.oeb.ca/consultations-and-projects/policy-initiative
 const TORONTO_HYDRO_RATES_URL = "https://www.torontohydro.com/for-home/rates";
 const IESO_PEAK_URL = "https://www.ieso.ca/Sector-Participants/Settlements/Peak-Tracker";
 const IESO_DEMAND_URL = "https://www.ieso.ca/power-data/demand-overview/real-time-demand-reports";
+const NOCTIS_URL = "https://noctis-lake.vercel.app/";
+const LUMEN_SHIFT_URL = "https://lumen-shift.vercel.app/";
+const SMARTENERGY_URL = "https://smart-energy-dashboard-nine.vercel.app/";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 22 },
@@ -58,6 +61,7 @@ const navItems = [
   ["Field", "field"],
   ["Research", "research"],
   ["Solutions", "solutions"],
+  ["Links", "constellation"],
   ["Report", "report"],
 ];
 
@@ -142,7 +146,7 @@ const reportIncludes = [
   "Grid context",
   "Urban lighting observations",
   "Key findings",
-  "Engineering solutions",
+  "Control ideas",
   "Discussion",
   "Limitations",
   "Future work",
@@ -484,17 +488,17 @@ export default function PowerInPracticeWebsite() {
         <div className="mx-auto grid min-h-[calc(100vh-7rem)] max-w-7xl items-end gap-8 lg:grid-cols-[1.04fr_.96fr]">
           <motion.div initial="hidden" animate="visible" variants={stagger} className="pb-8">
             <motion.div variants={fadeUp} className="mb-7 inline-flex items-center gap-2 border border-stone-700 bg-stone-950/70 px-4 py-2 font-mono text-[11px] uppercase text-amber-100">
-              <Layers size={15} /> Industrial research portfolio / Toronto
+              <Layers size={15} /> Personal field study / Toronto
             </motion.div>
             <motion.h1 variants={fadeUp} className="max-w-5xl text-5xl font-semibold leading-[0.94] text-stone-50 sm:text-7xl md:text-8xl lg:text-[8.5rem]">
-              Systemic Waste,
-              <span className="block text-amber-100">Measured.</span>
+              Everyday Power,
+              <span className="block text-amber-100">Observed.</span>
             </motion.h1>
             <motion.p variants={fadeUp} className="mt-8 max-w-2xl text-xl leading-8 text-stone-300 sm:text-2xl">
-              Power in Practice: Rethinking Electricity Use in Everyday Systems
+              Power in Practice: Notes on Electricity in Everyday Systems
             </motion.p>
             <motion.p variants={fadeUp} className="mt-5 max-w-2xl text-base leading-8 text-stone-500">
-              A household and urban electricity efficiency study connecting nighttime field observation, Ontario pricing data, and engineering response.
+              A curiosity-led study connecting nighttime field observation, Ontario pricing data, and small practical ways to understand everyday power use.
             </motion.p>
             <motion.div variants={fadeUp} className="mt-9 flex flex-col gap-3 sm:flex-row">
               <a href="#data" className="group inline-flex min-h-12 items-center justify-center gap-2 bg-amber-100 px-6 font-semibold text-black transition hover:bg-stone-50">
@@ -538,16 +542,16 @@ export default function PowerInPracticeWebsite() {
         </div>
       </header>
 
-      <Section id="abstract" eyebrow="Formal Research Report" title="Abstract" subtitle="Electricity efficiency is often discussed through generation and supply. This project studies how electricity is actually used in everyday systems.">
+      <Section id="abstract" eyebrow="Field note premise" title="Abstract" subtitle="Electricity often feels invisible until it shows up as light, heat, cost, or routine. This page follows those traces through ordinary spaces.">
         <Card>
           <div className="grid gap-8 lg:grid-cols-[.55fr_1fr]">
-            <p className="font-mono text-xs uppercase leading-6 text-amber-100/80">Research premise / repeated waste / static systems</p>
+            <p className="font-mono text-xs uppercase leading-6 text-amber-100/80">Personal observation / repeated patterns / public data</p>
             <div className="space-y-5 text-lg leading-8 text-stone-300">
               <p>
-                Electricity is one of the most essential resources in modern urban life, powering homes, transportation systems, buildings, and digital infrastructure. This project investigates inefficient electricity usage in household and urban environments through direct observation, local utility pricing data, public electricity system information, and engineering analysis.
+                Electricity is easy to ignore because it usually works quietly in the background. This page started from noticing light, appliances, signs, and timing habits, then comparing those observations with local utility pricing data and public electricity system information.
               </p>
               <p className="text-stone-400">
-                The project began through photography-based observation of Toronto&apos;s nighttime environment, where brightly illuminated office towers, streets, and commercial spaces often appeared active despite low visible occupancy. The findings suggest that electricity inefficiency often results from habitual human behavior and static system design.
+                The project began through photography-based observation of Toronto&apos;s nighttime environment, where office towers, streets, and commercial spaces sometimes looked more active than they felt. The notes are exploratory: part visual diary, part data check, part question about how everyday systems could behave more thoughtfully.
               </p>
             </div>
           </div>
@@ -652,7 +656,7 @@ export default function PowerInPracticeWebsite() {
         </div>
       </Section>
 
-      <Section id="field" eyebrow="Field Observation" title="Photography as Engineering Evidence" subtitle="The gallery treats each photo as a field note: a visible pattern, a system question, and a possible control opportunity.">
+      <Section id="field" eyebrow="Field Observation" title="Photography as Field Notes" subtitle="The gallery treats each photo as a visible pattern: not proof by itself, but a reason to ask what the light is doing and why it stays on.">
         <div className="grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-4">
           {photos.map((photo, index) => (
             <motion.article
@@ -673,7 +677,7 @@ export default function PowerInPracticeWebsite() {
                 />
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.78))]" />
                 <div className="absolute bottom-0 left-0 right-0 border-t border-stone-700 bg-[#090806]/90 p-5 opacity-100 transition duration-300 md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 md:group-focus-within:translate-y-0 md:group-focus-within:opacity-100">
-                  <p className="mb-2 font-mono text-[10px] uppercase text-amber-100">Engineering Notes</p>
+                  <p className="mb-2 font-mono text-[10px] uppercase text-amber-100">Observation Notes</p>
                   <p className="text-sm leading-6 text-stone-200">{photo.note}</p>
                 </div>
               </div>
@@ -721,7 +725,7 @@ export default function PowerInPracticeWebsite() {
         </div>
       </Section>
 
-      <Section id="research" eyebrow="Research Architecture" title="From Observation to Model" subtitle="The project follows the logic of a research paper: observation, benchmark, comparison, system context, and engineering response.">
+      <Section id="research" eyebrow="Research Architecture" title="From Observation to Model" subtitle="The page moves from observation to benchmark, comparison, system context, and practical control ideas without pretending the photos alone measure everything.">
         <div className="grid gap-6 lg:grid-cols-2">
           <ChartPanel title="Ontario Household Benchmark" icon={Home}>
             <ChartShell>
@@ -805,7 +809,7 @@ export default function PowerInPracticeWebsite() {
         </Card>
       </Section>
 
-      <Section id="solutions" eyebrow="The Engineering Solution" title="Control the System, Not Just the Light Switch" subtitle="The strongest short-term improvements come from low-cost controls, better scheduling, and systems that respond to actual use.">
+      <Section id="solutions" eyebrow="Control Ideas" title="Control the System, Not Just the Light Switch" subtitle="The strongest short-term improvements come from low-cost controls, better scheduling, and systems that respond to actual use.">
         <div className="grid gap-4 lg:grid-cols-3">
           {[
             [Cpu, "Smart Automation", "Smart plugs, timers, occupancy sensors, adaptive lighting, and thermostats reduce waste without requiring constant manual attention."],
@@ -884,10 +888,55 @@ export default function PowerInPracticeWebsite() {
         </div>
       </Section>
 
-      <Section id="future" eyebrow="Future Work" title="Next Version of the Study" subtitle="Future versions could turn this exploratory project into an interactive energy monitoring platform.">
+      <Section id="future" eyebrow="Future Notes" title="Next Version of the Study" subtitle="Future versions could add more direct measurements, more photographs, and richer interactive tools.">
         <div className="grid gap-4 md:grid-cols-3">
-          {["Real smart meter household data", "Light intensity sensor measurements", "Multiple Toronto neighborhoods", "Predictive demand models", "Ontario live data dashboard", "AI-based scheduling recommendations"].map((item) => (
+          {["Real smart meter household data", "Light intensity sensor measurements", "Multiple Toronto neighborhoods", "Predictive demand models", "Ontario live data dashboard", "Rule-based scheduling reminders"].map((item) => (
             <Card key={item}><p className="text-lg font-semibold leading-8">{item}</p></Card>
+          ))}
+        </div>
+      </Section>
+
+      <Section id="constellation" eyebrow="Connected Notes" title="The Same Curiosity, Different Interfaces" subtitle="These projects share a visual language, but each one looks at a different scale: household cost, night photography, and responsive light.">
+        <div className="grid gap-4 md:grid-cols-3">
+          {[
+            [NOCTIS_URL, "NOCTIS", "A black-and-white night photography map for Toronto light conditions.", "Photo map"],
+            [SMARTENERGY_URL, "SmartEnergy", "A dashboard for trying household usage scenarios with Ontario electricity rates.", "Dashboard"],
+            [LUMEN_SHIFT_URL, "Lumen Shift", "An interactive lighting prototype that responds to motion and street activity.", "Prototype"],
+          ].map(([href, title, body, label]) => (
+            <motion.a
+              key={title}
+              href={href}
+              target="_blank"
+              rel="noreferrer"
+              variants={fadeUp}
+              whileHover={{ y: -6, rotateX: 2, rotateY: -2 }}
+              className="group relative min-h-72 overflow-hidden border border-stone-800 bg-[#11100d] p-6 shadow-[0_18px_60px_rgba(0,0,0,0.32)]"
+            >
+              <div className="absolute inset-0 opacity-35 transition duration-500 group-hover:opacity-70">
+                <svg aria-hidden="true" viewBox="0 0 520 320" className="h-full w-full">
+                  <motion.path
+                    d="M24 210 C110 90 184 260 258 150 C332 42 408 100 492 50"
+                    fill="none"
+                    stroke="rgba(246,220,166,.72)"
+                    strokeWidth="2"
+                    strokeDasharray="18 44"
+                    animate={{ strokeDashoffset: [0, -220] }}
+                    transition={{ duration: 4.5, repeat: Infinity, ease: "linear" }}
+                  />
+                  <motion.circle cx="258" cy="150" r="5" fill="rgba(246,220,166,.9)" animate={{ scale: [1, 2.1, 1], opacity: [0.3, 1, 0.3] }} transition={{ duration: 2.4, repeat: Infinity }} />
+                </svg>
+              </div>
+              <div className="relative flex h-full flex-col justify-between">
+                <p className="font-mono text-[11px] uppercase text-amber-100/80">{label}</p>
+                <div>
+                  <h3 className="text-3xl font-semibold text-stone-50">{title}</h3>
+                  <p className="mt-4 leading-7 text-stone-400">{body}</p>
+                  <span className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-amber-100">
+                    Open project <ExternalLink size={15} />
+                  </span>
+                </div>
+              </div>
+            </motion.a>
           ))}
         </div>
       </Section>
@@ -920,8 +969,8 @@ export default function PowerInPracticeWebsite() {
       </Section>
 
       <footer className="border-t border-stone-800 px-5 py-10 text-center text-sm text-stone-500 sm:px-10 lg:px-20">
-        <p>Power in Practice / Industrial Precision Engineering Portfolio</p>
-        <p className="mt-2">Systemic Waste, Measured.</p>
+        <p>Power in Practice / Personal Electricity Field Notes</p>
+        <p className="mt-2">Everyday Power, Observed.</p>
       </footer>
     </main>
   );
