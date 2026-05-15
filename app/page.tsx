@@ -106,6 +106,13 @@ const photos = [
   },
 ];
 
+const fieldSignals = [
+  ["Peak risk", "6-9 PM"],
+  ["Control layer", "Timer / sensor"],
+  ["Waste type", "Standby load"],
+  ["Action", "Shift + shutoff"],
+];
+
 const solutionMatrix = [
   { name: "Turn off lights", cost: 1, impact: 2, difficulty: 1 },
   { name: "Shift appliances", cost: 1, impact: 3, difficulty: 2 },
@@ -306,6 +313,109 @@ function MetricCard({
   );
 }
 
+function CircuitBackdrop() {
+  const [scrollOffset, setScrollOffset] = useState(0);
+
+  useEffect(() => {
+    let frame = 0;
+
+    const update = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => setScrollOffset(window.scrollY * -0.08));
+    };
+
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", update);
+    };
+  }, []);
+
+  return (
+    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+      <div className="absolute inset-0 bg-[#090806]" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.025)_1px,transparent_1px)] [background-size:72px_72px]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(9,8,6,.22),#090806_78%)]" />
+      <motion.svg
+        aria-hidden="true"
+        viewBox="0 0 900 1200"
+        preserveAspectRatio="xMidYMid slice"
+        className="absolute bottom-[-8%] right-[-7%] h-[132vh] w-[58vw] min-w-[620px] opacity-[0.36] mix-blend-screen"
+        style={{ y: scrollOffset }}
+      >
+        <defs>
+          <filter id="circuit-glow">
+            <feGaussianBlur stdDeviation="2.2" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <g fill="none" strokeLinecap="round" strokeLinejoin="round">
+          {[
+            "M760 20 V190 H680 V310 H590 V420 H720 V560 H610 V690 H760 V860 H690 V1030 H800 V1180",
+            "M830 120 H720 V230 H650",
+            "M720 310 H820 V430 H760",
+            "M590 420 H480 V540 H560",
+            "M610 690 H500 V770 H420",
+            "M690 1030 H560 V930 H470",
+            "M800 1180 H640 V1100 H560",
+            "M760 560 H850 V640 H790 V720",
+            "M680 190 H560 V260 H480",
+            "M720 860 H590 V820 H520",
+          ].map((path) => (
+            <path key={path} d={path} stroke="rgba(255,255,255,.18)" strokeWidth="2" />
+          ))}
+          {[
+            "M760 20 V190 H680 V310 H590 V420 H720 V560 H610 V690 H760 V860 H690 V1030 H800 V1180",
+            "M830 120 H720 V230 H650",
+            "M590 420 H480 V540 H560",
+            "M610 690 H500 V770 H420",
+            "M760 560 H850 V640 H790 V720",
+          ].map((path, index) => (
+            <motion.path
+              key={path}
+              d={path}
+              stroke="rgba(255,255,255,.78)"
+              strokeWidth={index === 0 ? 3 : 2.2}
+              strokeDasharray={index === 0 ? "44 190" : "28 150"}
+              filter="url(#circuit-glow)"
+              animate={{ strokeDashoffset: [0, -360] }}
+              transition={{ duration: index === 0 ? 5.5 : 4.2 + index * 0.45, repeat: Infinity, ease: "linear" }}
+            />
+          ))}
+          {[
+            [760, 190],
+            [680, 310],
+            [590, 420],
+            [720, 560],
+            [610, 690],
+            [760, 860],
+            [690, 1030],
+            [720, 230],
+            [850, 640],
+            [500, 770],
+          ].map(([cx, cy], index) => (
+            <motion.circle
+              key={`${cx}-${cy}`}
+              cx={cx}
+              cy={cy}
+              r={index % 3 === 0 ? 5 : 3.5}
+              fill="rgba(255,255,255,.82)"
+              filter="url(#circuit-glow)"
+              animate={{ opacity: [0.18, 0.95, 0.18], scale: [0.75, 1.45, 0.75] }}
+              transition={{ duration: 2.4, delay: index * 0.18, repeat: Infinity, ease: "easeInOut" }}
+            />
+          ))}
+        </g>
+      </motion.svg>
+    </div>
+  );
+}
+
 export default function PowerInPracticeWebsite() {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [shiftedKwh, setShiftedKwh] = useState(50);
@@ -326,9 +436,8 @@ export default function PowerInPracticeWebsite() {
     ) * 4.33;
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#090806] text-stone-100 selection:bg-amber-200 selection:text-black">
-      <div className="fixed inset-0 -z-10 bg-[linear-gradient(rgba(255,255,255,.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.035)_1px,transparent_1px)] [background-size:72px_72px]" />
-      <div className="fixed inset-0 -z-10 bg-[linear-gradient(180deg,rgba(9,8,6,.35),#090806_72%)]" />
+    <main className="relative isolate min-h-screen overflow-hidden bg-transparent text-stone-100 selection:bg-amber-200 selection:text-black">
+      <CircuitBackdrop />
 
       <nav className="fixed left-0 right-0 top-0 z-50 border-b border-stone-800 bg-[#090806]/88 px-5 py-3 backdrop-blur-xl sm:px-10 lg:px-20">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
@@ -544,7 +653,7 @@ export default function PowerInPracticeWebsite() {
       </Section>
 
       <Section id="field" eyebrow="Field Observation" title="Photography as Engineering Evidence" subtitle="The gallery treats each photo as a field note: a visible pattern, a system question, and a possible control opportunity.">
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid auto-rows-fr gap-4 md:grid-cols-2 xl:grid-cols-4">
           {photos.map((photo, index) => (
             <motion.article
               key={photo.title}
@@ -552,14 +661,14 @@ export default function PowerInPracticeWebsite() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className={`group border border-stone-800 bg-[#11100d] ${index === 0 ? "md:col-span-2 xl:col-span-2" : ""}`}
+              className={`group border border-stone-800 bg-[#11100d] ${index === 0 ? "md:col-span-2 xl:col-span-2" : ""} ${index === 3 ? "xl:col-span-2" : ""}`}
             >
-              <div className="relative h-[420px] overflow-hidden bg-stone-950">
+              <div className={`relative overflow-hidden bg-stone-950 ${index === 3 ? "h-[420px] xl:h-[360px]" : "h-[420px]"}`}>
                 <Image
                   src={photo.image}
                   alt={photo.title}
                   fill
-                  sizes={index === 0 ? "(min-width: 1280px) 50vw, 100vw" : "(min-width: 1280px) 25vw, 50vw"}
+                  sizes={index === 0 || index === 3 ? "(min-width: 1280px) 50vw, 100vw" : "(min-width: 1280px) 25vw, 50vw"}
                   className="object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0"
                 />
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.78))]" />
@@ -574,6 +683,41 @@ export default function PowerInPracticeWebsite() {
               </div>
             </motion.article>
           ))}
+          <Card className="relative overflow-hidden xl:col-span-2">
+            <div className="absolute inset-0 opacity-35">
+              <svg aria-hidden="true" viewBox="0 0 680 420" className="h-full w-full">
+                <g fill="none" stroke="rgba(255,255,255,.28)" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M30 84 H170 V140 H270 V78 H390 V126 H620" strokeWidth="2" />
+                  <path d="M70 230 H210 V184 H330 V250 H490 V206 H640" strokeWidth="2" />
+                  <path d="M130 348 H260 V310 H380 V350 H570" strokeWidth="2" />
+                  <path d="M390 126 V206" strokeWidth="2" />
+                  <path d="M490 206 V310" strokeWidth="2" />
+                </g>
+                <g fill="rgba(255,255,255,.5)">
+                  {[170, 270, 390, 490, 570].map((cx, index) => (
+                    <circle key={cx} cx={cx} cy={[84, 140, 126, 206, 348][index]} r="4" />
+                  ))}
+                </g>
+              </svg>
+            </div>
+            <div className="relative flex h-full min-h-[360px] flex-col justify-between">
+              <div>
+                <p className="font-mono text-[11px] uppercase text-stone-500">Field Signal Summary</p>
+                <h3 className="mt-5 max-w-xl text-3xl font-semibold leading-tight text-stone-50">Standby Load Control Board</h3>
+                <p className="mt-5 max-w-2xl text-base leading-8 text-stone-400">
+                  The residential case connects small standby loads with the same system logic seen in commercial lighting: repeated patterns become meaningful when they stack across time.
+                </p>
+              </div>
+              <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                {fieldSignals.map(([label, value]) => (
+                  <div key={label} className="border border-stone-800 bg-black/35 p-4">
+                    <p className="font-mono text-[10px] uppercase text-stone-500">{label}</p>
+                    <p className="mt-3 text-xl font-semibold text-stone-100">{value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Card>
         </div>
       </Section>
 
