@@ -21,3 +21,182 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+.pip-logo,
+.pip-badge,
+.pip-action,
+.pip-card,
+.pip-link-card,
+.pip-source-card,
+.pip-photo-card,
+.pip-data-row,
+.pip-hero-image {
+  transform-origin: center;
+}
+
+.pip-logo {
+  transition: transform 220ms cubic-bezier(.2, 1.35, .4, 1), filter 160ms ease;
+}
+
+.pip-logo:hover {
+  animation: pip-glitch 620ms steps(2, end);
+  filter: contrast(1.12);
+  transform: scale(1.025);
+}
+
+.pip-badge {
+  transition: transform 240ms cubic-bezier(.2, 1.35, .4, 1), border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.pip-badge:hover {
+  border-color: rgba(246, 220, 166, .5);
+  box-shadow: 0 14px 38px rgba(214, 173, 96, .12);
+  transform: rotate(-2deg) scale(1.055);
+}
+
+.pip-badge:active {
+  transform: rotate(1deg) scale(.94);
+}
+
+.pip-action {
+  position: relative;
+  overflow: hidden;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.pip-action::after {
+  content: "✓";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 11px;
+  opacity: 0;
+  transform: translateY(-50%) scale(.2);
+  transition: opacity 120ms ease, transform 260ms cubic-bezier(.2, 1.45, .36, 1);
+}
+
+.pip-action:hover {
+  box-shadow: 0 0 0 1px rgba(246, 220, 166, .12), 0 18px 50px rgba(214, 173, 96, .16);
+  transform: translateY(-3px) scale(1.02);
+}
+
+.pip-action:active {
+  transform: translateY(0) scale(.98);
+}
+
+.pip-action:active::after {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+.pip-card,
+.pip-link-card,
+.pip-source-card,
+.pip-photo-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, filter 180ms ease;
+}
+
+.pip-card::before,
+.pip-link-card::before,
+.pip-source-card::before,
+.pip-photo-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 2;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(246, 220, 166, .78), rgba(141, 168, 189, .5), transparent);
+  opacity: 0;
+  transform: translateX(-120%);
+  transition: opacity 120ms ease, transform 680ms ease;
+  pointer-events: none;
+}
+
+.pip-card:hover,
+.pip-link-card:hover,
+.pip-source-card:hover,
+.pip-photo-card:hover {
+  border-color: rgba(246, 220, 166, .32);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, .42), 0 0 0 1px rgba(246, 220, 166, .06);
+  filter: contrast(1.04);
+  transform: translateY(-8px);
+}
+
+.pip-card:hover::before,
+.pip-link-card:hover::before,
+.pip-source-card:hover::before,
+.pip-photo-card:hover::before {
+  opacity: .78;
+  transform: translateX(120%);
+}
+
+.pip-card-title {
+  position: relative;
+  overflow: hidden;
+}
+
+.pip-card-title::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 0 36%, rgba(246, 220, 166, .14) 48%, transparent 60%);
+  transform: translateX(-120%);
+  transition: transform 680ms ease;
+  pointer-events: none;
+}
+
+.pip-card:hover .pip-card-title::after {
+  transform: translateX(120%);
+}
+
+.pip-hero-image img {
+  transition: transform 700ms ease, filter 700ms ease;
+}
+
+.pip-hero-image:hover img {
+  filter: grayscale(1) contrast(1.55);
+  transform: scale(1.08);
+}
+
+.pip-data-row {
+  background-image: linear-gradient(90deg, rgba(92, 26, 28, .96) 0 50%, rgba(0, 0, 0, .35) 50% 100%);
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  transition: background-position 340ms ease, color 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.pip-data-row:hover {
+  background-position: 0 0;
+  border-color: rgba(246, 220, 166, .26);
+  color: #f8f5ee;
+  transform: translateY(-2px);
+}
+
+.pip-data-row:hover * {
+  color: #f8f5ee;
+}
+
+@keyframes pip-glitch {
+  0%, 100% {
+    text-shadow: none;
+  }
+  24% {
+    text-shadow: 2px 0 rgba(246, 220, 166, .62), -2px 0 rgba(141, 168, 189, .36);
+  }
+  46% {
+    text-shadow: -3px 0 rgba(246, 220, 166, .42), 3px 0 rgba(92, 26, 28, .54);
+  }
+  72% {
+    text-shadow: 1px 0 rgba(248, 245, 238, .38), -1px 0 rgba(246, 220, 166, .38);
+  }
+}

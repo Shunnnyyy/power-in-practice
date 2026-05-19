@@ -189,7 +189,7 @@ function SourceLink({ href, children }: { href: string; children: React.ReactNod
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="inline-flex min-h-10 items-center gap-2 border border-stone-700/80 bg-stone-950/60 px-4 text-sm text-stone-300 transition hover:border-amber-300/60 hover:bg-amber-300/10 hover:text-amber-100"
+      className="pip-action inline-flex min-h-10 items-center gap-2 border border-stone-700/80 bg-stone-950/60 px-4 text-sm text-stone-300 transition hover:border-amber-300/60 hover:bg-amber-300/10 hover:text-amber-100"
     >
       {children}
       <ExternalLink size={14} />
@@ -221,7 +221,7 @@ function Section({
           transition={{ duration: 0.65, ease: "easeOut" }}
           className="mb-10 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]"
         >
-          <p className="font-mono text-[11px] uppercase text-amber-200/80">{eyebrow}</p>
+          <p className="pip-badge font-mono text-[11px] uppercase text-amber-200/80">{eyebrow}</p>
           <div>
             <h2 className="max-w-4xl text-4xl font-semibold leading-none text-stone-50 sm:text-6xl">{title}</h2>
             {subtitle && <p className="mt-5 max-w-3xl text-base leading-8 text-stone-400">{subtitle}</p>}
@@ -238,7 +238,7 @@ function Card({ children, className = "" }: { children: React.ReactNode; classNa
     <motion.div
       variants={fadeUp}
       transition={{ duration: 0.25 }}
-      className={`border border-stone-800 bg-[#11100d]/85 p-6 shadow-[0_18px_60px_rgba(0,0,0,0.32)] ${className}`}
+      className={`pip-card border border-stone-800 bg-[#11100d]/85 p-6 shadow-[0_18px_60px_rgba(0,0,0,0.32)] ${className}`}
     >
       {children}
     </motion.div>
@@ -248,7 +248,7 @@ function Card({ children, className = "" }: { children: React.ReactNode; classNa
 function ChartPanel({ title, icon: Icon, children }: { title: string; icon: React.ElementType; children: React.ReactNode }) {
   return (
     <Card className="overflow-hidden">
-      <div className="-mx-6 -mt-6 mb-6 flex items-center justify-between border-b border-stone-800 bg-stone-950/55 px-6 py-4">
+      <div className="pip-card-title -mx-6 -mt-6 mb-6 flex items-center justify-between border-b border-stone-800 bg-stone-950/55 px-6 py-4">
         <div className="flex items-center gap-3">
           <span className="flex h-9 w-9 items-center justify-center border border-amber-200/25 bg-amber-200/10 text-amber-100">
             <Icon size={19} />
@@ -449,7 +449,7 @@ export default function PowerInPracticeWebsite() {
 
       <nav className="fixed left-0 right-0 top-0 z-50 border-b border-stone-800 bg-[#090806]/88 px-5 py-3 backdrop-blur-xl sm:px-10 lg:px-20">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
-          <a href="#home" className="flex items-center gap-3 text-sm font-semibold uppercase text-stone-100">
+          <a href="#home" className="pip-logo flex items-center gap-3 text-sm font-semibold uppercase text-stone-100">
             <span className="flex h-9 w-9 items-center justify-center border border-amber-200/40 bg-amber-200/10 text-amber-100">
               <Zap size={18} />
             </span>
@@ -491,7 +491,7 @@ export default function PowerInPracticeWebsite() {
       <header id="home" className="relative px-5 pb-16 pt-28 sm:px-10 lg:px-20">
         <div className="mx-auto grid min-h-[calc(100vh-7rem)] max-w-7xl items-end gap-8 lg:grid-cols-[1.04fr_.96fr]">
           <motion.div initial="hidden" animate="visible" variants={stagger} className="pb-8">
-            <motion.div variants={fadeUp} className="mb-7 inline-flex items-center gap-2 border border-stone-700 bg-stone-950/70 px-4 py-2 font-mono text-[11px] uppercase text-amber-100">
+            <motion.div variants={fadeUp} className="pip-badge mb-7 inline-flex items-center gap-2 border border-stone-700 bg-stone-950/70 px-4 py-2 font-mono text-[11px] uppercase text-amber-100">
               <Layers size={15} /> Personal field study / Toronto
             </motion.div>
             <motion.h1 variants={fadeUp} className="max-w-5xl text-5xl font-semibold leading-[0.94] text-stone-50 sm:text-7xl md:text-8xl lg:text-[8.5rem]">
@@ -505,17 +505,17 @@ export default function PowerInPracticeWebsite() {
               A curiosity-led study connecting nighttime field observation, Ontario pricing data, and small practical ways to understand everyday power use.
             </motion.p>
             <motion.div variants={fadeUp} className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <a href="#data" className="group inline-flex min-h-12 items-center justify-center gap-2 bg-amber-100 px-6 font-semibold text-black transition hover:bg-stone-50">
+              <a href="#data" className="pip-action group inline-flex min-h-12 items-center justify-center gap-2 bg-amber-100 px-6 font-semibold text-black transition hover:bg-stone-50">
                 Explore Data <ArrowRight className="transition group-hover:translate-x-1" size={18} />
               </a>
-              <a href="#field" className="inline-flex min-h-12 items-center justify-center border border-stone-700 px-6 font-semibold text-stone-100 transition hover:border-amber-200/70 hover:bg-stone-900">
+              <a href="#field" className="pip-action inline-flex min-h-12 items-center justify-center border border-stone-700 px-6 font-semibold text-stone-100 transition hover:border-amber-200/70 hover:bg-stone-900">
                 View Field Notes
               </a>
             </motion.div>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85 }} className="relative">
-            <div className="relative h-[580px] overflow-hidden border border-stone-800 bg-stone-950">
+            <div className="pip-hero-image relative h-[580px] overflow-hidden border border-stone-800 bg-stone-950">
               <Image
                 src="/case-study-1.jpg"
                 alt="Nighttime urban lighting observation"
@@ -669,7 +669,7 @@ export default function PowerInPracticeWebsite() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className={`group border border-stone-800 bg-[#11100d] ${index === 0 ? "md:col-span-2 xl:col-span-2" : ""} ${index === 3 ? "xl:col-span-2" : ""}`}
+              className={`pip-photo-card group border border-stone-800 bg-[#11100d] ${index === 0 ? "md:col-span-2 xl:col-span-2" : ""} ${index === 3 ? "xl:col-span-2" : ""}`}
             >
               <div className={`relative overflow-hidden bg-stone-950 ${index === 3 ? "h-[420px] xl:h-[360px]" : "h-[420px]"}`}>
                 <Image
@@ -677,7 +677,7 @@ export default function PowerInPracticeWebsite() {
                   alt={photo.title}
                   fill
                   sizes={index === 0 || index === 3 ? "(min-width: 1280px) 50vw, 100vw" : "(min-width: 1280px) 25vw, 50vw"}
-                  className="object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0"
+                  className="object-cover grayscale contrast-125 transition duration-700 group-hover:scale-[1.08] group-hover:contrast-150"
                 />
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.78))]" />
                 <div className="absolute bottom-0 left-0 right-0 border-t border-stone-700 bg-[#090806]/90 p-5 opacity-100 transition duration-300 md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 md:group-focus-within:translate-y-0 md:group-focus-within:opacity-100">
@@ -718,7 +718,7 @@ export default function PowerInPracticeWebsite() {
               </div>
               <div className="mt-8 grid gap-3 sm:grid-cols-2">
                 {fieldSignals.map(([label, value]) => (
-                  <div key={label} className="border border-stone-800 bg-black/35 p-4">
+                  <div key={label} className="pip-data-row border border-stone-800 bg-black/35 p-4">
                     <p className="font-mono text-[10px] uppercase text-stone-500">{label}</p>
                     <p className="mt-3 text-xl font-semibold text-stone-100">{value}</p>
                   </div>
@@ -914,7 +914,7 @@ export default function PowerInPracticeWebsite() {
               rel="noreferrer"
               variants={fadeUp}
               whileHover={{ y: -6, rotateX: 2, rotateY: -2 }}
-              className="group relative min-h-72 overflow-hidden border border-stone-800 bg-[#11100d] p-6 shadow-[0_18px_60px_rgba(0,0,0,0.32)]"
+              className="pip-link-card group relative min-h-72 overflow-hidden border border-stone-800 bg-[#11100d] p-6 shadow-[0_18px_60px_rgba(0,0,0,0.32)]"
             >
               <div className="absolute inset-0 opacity-35 transition duration-500 group-hover:opacity-70">
                 <svg aria-hidden="true" viewBox="0 0 520 320" className="h-full w-full">
@@ -962,7 +962,7 @@ export default function PowerInPracticeWebsite() {
               rel="noreferrer"
               variants={fadeUp}
               whileHover={{ y: -5 }}
-              className="group min-h-64 border border-stone-800 bg-[#11100d]/85 p-6 shadow-[0_18px_60px_rgba(0,0,0,0.32)] transition hover:border-amber-200/40"
+              className="pip-source-card group min-h-64 border border-stone-800 bg-[#11100d]/85 p-6 shadow-[0_18px_60px_rgba(0,0,0,0.32)] transition hover:border-amber-200/40"
             >
               <p className="font-mono text-[11px] uppercase text-amber-100/75">{label}</p>
               <h3 className="mt-14 text-2xl font-semibold leading-tight text-stone-50">{title}</h3>
