@@ -900,12 +900,12 @@ export default function PowerInPracticeWebsite() {
         </div>
       </Section>
 
-      <Section id="constellation" eyebrow="Connected Notes" title="The Same Curiosity, Different Interfaces" subtitle="These projects share a visual language, but each one looks at a different scale: household cost, night photography, and responsive light.">
+      <Section id="constellation" eyebrow="Connected Notes" title="The Same Curiosity, Different Interfaces" subtitle="These projects share a visual language, but each one has a different role: everyday electricity notes, a household calculator, a night light photo archive, and a responsive lighting study.">
         <div className="grid gap-4 md:grid-cols-3">
           {[
-            [NOCTIS_URL, "NOCTIS", "A black-and-white night photography map for Toronto light conditions.", "Photo map"],
-            [SMARTENERGY_URL, "SmartEnergy", "A dashboard for trying household usage scenarios with Ontario electricity rates.", "Dashboard"],
-            [LUMEN_SHIFT_URL, "Lumen Shift", "An interactive lighting prototype that responds to motion and street activity.", "Prototype"],
+            [NOCTIS_URL, "NOCTIS", "A night light photo archive where Toronto images become map anchors, lux notes, and field observations.", "Photo archive"],
+            [SMARTENERGY_URL, "SmartEnergy", "A household energy calculator for trying usage scenarios with Ontario electricity rates.", "Calculator"],
+            [LUMEN_SHIFT_URL, "Lumen Shift", "A responsive lighting study shaped by lux readings, quiet hours, motion, and field observation.", "Field study"],
           ].map(([href, title, body, label]) => (
             <motion.a
               key={title}
