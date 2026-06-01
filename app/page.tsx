@@ -219,7 +219,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="relative border-t border-stone-800/80 px-5 py-20 sm:px-10 lg:px-20">
+    <section id={id} className="relative scroll-mt-24 border-t border-stone-800/80 px-5 py-20 sm:px-10 lg:px-20">
       <div className="mx-auto max-w-7xl">
         <motion.div
           variants={fadeUp}
@@ -227,11 +227,11 @@ function Section({
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.65, ease: "easeOut" }}
-          className="mb-10 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]"
+          className="mb-10 grid gap-5 lg:grid-cols-[0.42fr_1fr] lg:items-end"
         >
           <p className="pip-badge font-mono text-[11px] uppercase text-amber-200/80">{eyebrow}</p>
           <div>
-            <h2 className="max-w-4xl text-4xl font-semibold leading-none text-stone-50 sm:text-6xl">{title}</h2>
+            <h2 className="max-w-4xl text-4xl font-semibold leading-[1.02] text-stone-50 sm:text-5xl lg:text-6xl">{title}</h2>
             {subtitle && <p className="mt-5 max-w-3xl text-base leading-8 text-stone-400">{subtitle}</p>}
           </div>
         </motion.div>
@@ -940,7 +940,7 @@ export default function PowerInPracticeWebsite() {
               rel="noreferrer"
               variants={fadeUp}
               whileHover={{ y: -6, rotateX: 2, rotateY: -2 }}
-              className="pip-link-card group relative min-h-72 overflow-hidden border border-stone-800 bg-[#11100d] p-6 shadow-[0_18px_60px_rgba(0,0,0,0.32)]"
+              className="pip-link-card group relative min-h-72 overflow-hidden border border-stone-800 bg-[#11100d] p-6"
             >
               <div className="absolute inset-0 opacity-35 transition duration-500 group-hover:opacity-70">
                 <svg aria-hidden="true" viewBox="0 0 520 320" className="h-full w-full">
@@ -988,7 +988,7 @@ export default function PowerInPracticeWebsite() {
               rel="noreferrer"
               variants={fadeUp}
               whileHover={{ y: -5 }}
-              className="pip-source-card group min-h-64 border border-stone-800 bg-[#11100d]/85 p-6 shadow-[0_18px_60px_rgba(0,0,0,0.32)] transition hover:border-amber-200/40"
+              className="pip-source-card group min-h-64 border border-stone-800 bg-[#11100d]/85 p-6 transition hover:border-amber-200/40"
             >
               <p className="font-mono text-[11px] uppercase text-amber-100/75">{label}</p>
               <h3 className="mt-14 text-2xl font-semibold leading-tight text-stone-50">{title}</h3>

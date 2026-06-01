@@ -128,9 +128,9 @@ html {
 .pip-source-card:hover,
 .pip-photo-card:hover {
   border-color: rgba(246, 220, 166, .32);
-  box-shadow: 0 18px 54px rgba(0, 0, 0, .30), 0 0 0 1px rgba(246, 220, 166, .05);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, .22), 0 0 0 1px rgba(246, 220, 166, .05);
   filter: contrast(1.04);
-  transform: translateY(-5px);
+  transform: translateY(-4px);
 }
 
 .pip-card:hover::before,
