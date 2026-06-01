@@ -65,6 +65,7 @@ const navItems = [
   ["Field", "field"],
   ["Research", "research"],
   ["Solutions", "solutions"],
+  ["Playbook", "playbook"],
   ["Links", "constellation"],
   ["Report", "report"],
 ];
@@ -137,6 +138,13 @@ const findings = [
   ["Urban Systems Are Often Static", "Many lighting systems appear designed around fixed schedules rather than adaptive use."],
   ["Low-Cost Controls Offer High Value", "Timers, sensors, and scheduling can create meaningful gains without major infrastructure spending."],
   ["Optimization Matters", "The opportunity is not only producing more energy, but operating existing systems more intelligently."],
+];
+
+const actionPlaybook = [
+  ["Observe", "Use NOCTIS photos and lux readings to identify places where brightness and activity do not match."],
+  ["Calculate", "Use SmartEnergy to estimate how timing, peak hours, and repeated habits affect cost."],
+  ["Prioritize", "Use the cost-impact matrix to choose low-cost actions before expensive upgrades."],
+  ["Prototype", "Use Lumen Shift to test a rule: dim, schedule, shield, or respond to movement."],
 ];
 
 const reportIncludes = [
@@ -238,7 +246,7 @@ function Card({ children, className = "" }: { children: React.ReactNode; classNa
     <motion.div
       variants={fadeUp}
       transition={{ duration: 0.25 }}
-      className={`pip-card border border-stone-800 bg-[#11100d]/85 p-6 shadow-[0_18px_60px_rgba(0,0,0,0.32)] ${className}`}
+      className={`pip-card border border-stone-800 bg-[#11100d]/82 p-6 ${className}`}
     >
       {children}
     </motion.div>
@@ -632,7 +640,7 @@ export default function PowerInPracticeWebsite() {
             <h3 className="mb-5 text-xl font-semibold">Imported Data Sources</h3>
             <div className="space-y-4">
               {sourceNotes.map((source) => (
-                <div key={source.label} className="border border-stone-800 bg-stone-950/45 p-4">
+                <div key={source.label} className="pip-data-row border-b border-stone-800 py-4 last:border-b-0">
                   <p className="font-semibold text-stone-100">{source.label}</p>
                   <p className="mt-2 text-sm leading-6 text-stone-400">{source.detail}</p>
                 </div>
@@ -849,7 +857,7 @@ export default function PowerInPracticeWebsite() {
             <h3 className="mb-5 text-xl font-semibold">Solution Matrix</h3>
             <div className="space-y-3">
               {solutionMatrix.map((s) => (
-                <div key={s.name} className="grid grid-cols-[1fr_auto] gap-4 border border-stone-800 bg-stone-950/45 p-4">
+                <div key={s.name} className="pip-data-row grid grid-cols-[1fr_auto] gap-4 border-b border-stone-800 py-4 last:border-b-0">
                   <div>
                     <p className="font-semibold text-stone-100">{s.name}</p>
                     <p className="mt-1 font-mono text-xs uppercase text-stone-500">Cost {s.cost}/5 / Difficulty {s.difficulty}/5</p>
@@ -859,6 +867,24 @@ export default function PowerInPracticeWebsite() {
               ))}
             </div>
           </Card>
+        </div>
+      </Section>
+
+      <Section id="playbook" eyebrow="Practical Playbook" title="A Simple Decision Loop for Real Places" subtitle="The project becomes useful when every observation ends with a small, testable next step instead of only a description.">
+        <div className="grid gap-0 border-y border-stone-800 md:grid-cols-4">
+          {actionPlaybook.map(([title, body], index) => (
+            <motion.div
+              key={title}
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="border-b border-stone-800 py-7 md:border-b-0 md:border-r md:px-6 md:last:border-r-0"
+            >
+              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-amber-100/80">{String(index + 1).padStart(2, "0")} / {title}</p>
+              <p className="mt-16 text-base leading-8 text-stone-300">{body}</p>
+            </motion.div>
+          ))}
         </div>
       </Section>
 
@@ -900,12 +926,12 @@ export default function PowerInPracticeWebsite() {
         </div>
       </Section>
 
-      <Section id="constellation" eyebrow="Connected Notes" title="The Same Curiosity, Different Interfaces" subtitle="These projects share a visual language, but each one has a different role: everyday electricity notes, a household calculator, a night light photo archive, and a responsive lighting study.">
+      <Section id="constellation" eyebrow="Connected Notes" title="The Same Curiosity, Different Interfaces" subtitle="These projects work together as one toolkit: collect field evidence, estimate cost, understand causes, and test a response.">
         <div className="grid gap-4 md:grid-cols-3">
           {[
-            [NOCTIS_URL, "NOCTIS", "A night light photo archive where Toronto images become map anchors, lux notes, and field observations.", "Photo archive"],
-            [SMARTENERGY_URL, "SmartEnergy", "A household energy calculator for trying usage scenarios with Ontario electricity rates.", "Calculator"],
-            [LUMEN_SHIFT_URL, "Lumen Shift", "A responsive lighting study shaped by lux readings, quiet hours, motion, and field observation.", "Field study"],
+            [NOCTIS_URL, "NOCTIS", "Collect field evidence with photos, lux notes, activity labels, and map locations.", "Collect"],
+            [SMARTENERGY_URL, "SmartEnergy", "Estimate how timing and repeated behavior can change cost and peak demand.", "Estimate"],
+            [LUMEN_SHIFT_URL, "Lumen Shift", "Prototype a response rule for dimming, scheduling, and motion-based brightness.", "Test"],
           ].map(([href, title, body, label]) => (
             <motion.a
               key={title}
@@ -977,12 +1003,12 @@ export default function PowerInPracticeWebsite() {
 
       <Section id="report" eyebrow="Report" title="Download Full Report" subtitle="A final section for the PDF report, documentation, and source list.">
         <div className="grid items-stretch gap-6 lg:grid-cols-[.85fr_1.15fr]">
-          <Card className="flex flex-col items-center justify-center text-center">
+          <Card className="flex flex-col items-start justify-center text-left">
             <div className="flex h-44 w-36 items-center justify-center border border-amber-200/25 bg-amber-100/10">
               <FileText size={54} className="text-amber-100" />
             </div>
             <h3 className="mt-8 text-2xl font-semibold">Power in Practice Full Formal Research Report</h3>
-            <p className="mx-auto mt-3 max-w-md text-stone-400">Rethinking Electricity Use in Everyday Systems: A Household and Urban Electricity Efficiency Study in Toronto, Ontario.</p>
+            <p className="mt-3 max-w-md leading-7 text-stone-400">Rethinking Electricity Use in Everyday Systems: A Household and Urban Electricity Efficiency Study in Toronto, Ontario.</p>
             <a
               href="/power-in-practice-report.pdf"
               download
@@ -995,7 +1021,7 @@ export default function PowerInPracticeWebsite() {
             <h3 className="mb-5 text-xl font-semibold">Report Includes</h3>
             <div className="grid gap-3 sm:grid-cols-2">
               {reportIncludes.map((item) => (
-                <div key={item} className="border border-stone-800 bg-stone-950/45 px-4 py-3 text-stone-300">{item}</div>
+                <div key={item} className="pip-data-row border-b border-stone-800 px-1 py-3 text-stone-300 last:border-b-0">{item}</div>
               ))}
             </div>
           </Card>
