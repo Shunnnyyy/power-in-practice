@@ -17,6 +17,7 @@ import {
   LineChart as LineIcon,
   Menu,
   Network,
+  Sparkles,
   Timer,
   X,
   Zap,
@@ -50,7 +51,7 @@ const TORONTO_OPEN_DATA_URL = "https://open.toronto.ca/";
 const OSM_ATTRIBUTION_URL = "https://www.openstreetmap.org/about/legal";
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 22 },
+  hidden: { opacity: 1, y: 0 },
   visible: { opacity: 1, y: 0 },
 };
 
@@ -66,6 +67,7 @@ const navItems = [
   ["Research", "research"],
   ["Solutions", "solutions"],
   ["Playbook", "playbook"],
+  ["Synthesis", "synthesis"],
   ["Links", "constellation"],
   ["Report", "report"],
 ];
@@ -146,6 +148,23 @@ const actionPlaybook = [
   ["Prioritize", "Use the cost-impact matrix to choose low-cost actions before expensive upgrades."],
   ["Prototype", "Use Lumen Shift to test a rule: dim, schedule, shield, or respond to movement."],
 ];
+
+const chatGptReflectionPrompt = `Act as a supportive writing mentor. Help me turn my four connected urban-light and energy projects into a short reflection in clear Grade 10 ESL English.
+
+Project system:
+NOCTIS: I collect night photos, map locations, lux readings, activity labels, and observations.
+Lumen Shift: I test whether dimming, scheduling, shielding, or motion-based lighting could fit a place.
+SmartEnergy: I estimate how timing and repeated behavior can change electricity cost and demand.
+Power in Practice: I connect the field notes, public data, and practical decisions into one research story.
+
+Please write:
+1. a 90-word project summary;
+2. what problem I noticed in real life;
+3. what I built or tested;
+4. what I learned about light, energy, people, and efficiency;
+5. one next step that sounds realistic and not too overclaimed.
+
+Tone: personal, curious, professional, and believable. Do not make it sound like I only did this for university applications.`;
 
 const reportIncludes = [
   "Abstract",
@@ -435,6 +454,7 @@ function CircuitBackdrop() {
 export default function PowerInPracticeWebsite() {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [shiftedKwh, setShiftedKwh] = useState(50);
+  const [promptCopyState, setPromptCopyState] = useState("Copy ChatGPT Prompt");
   const monthlySavings = (shiftedKwh * (39.1 - 3.9)) / 100;
   const weeklyKwh = importedUsageData.reduce((sum, day) => sum + day.total, 0);
   const projectedMonthlyKwh = (weeklyKwh / importedUsageData.length) * 30;
@@ -450,6 +470,16 @@ export default function PowerInPracticeWebsite() {
         day.eveningPeak * 0.391,
       0,
     ) * 4.33;
+
+  async function copyReflectionPrompt() {
+    try {
+      await navigator.clipboard.writeText(chatGptReflectionPrompt);
+      setPromptCopyState("Prompt Copied");
+    } catch {
+      setPromptCopyState("Copy Failed");
+    }
+    setTimeout(() => setPromptCopyState("Copy ChatGPT Prompt"), 1400);
+  }
 
   return (
     <main className="relative isolate min-h-screen overflow-hidden bg-transparent text-stone-100 selection:bg-amber-200 selection:text-black">
@@ -497,8 +527,8 @@ export default function PowerInPracticeWebsite() {
       </nav>
 
       <header id="home" className="relative px-5 pb-16 pt-28 sm:px-10 lg:px-20">
-        <div className="mx-auto grid min-h-[calc(100vh-7rem)] max-w-7xl items-end gap-8 lg:grid-cols-[1.04fr_.96fr]">
-          <motion.div initial="hidden" animate="visible" variants={stagger} className="pb-8">
+        <div className="mx-auto grid min-h-[720px] max-w-7xl items-center gap-8 lg:grid-cols-[1.04fr_.96fr]">
+          <motion.div initial="hidden" animate="visible" variants={stagger} className="py-8">
             <motion.div variants={fadeUp} className="pip-badge mb-7 inline-flex items-center gap-2 border border-stone-700 bg-stone-950/70 px-4 py-2 font-mono text-[11px] uppercase text-amber-100">
               <Layers size={15} /> Personal field study / Toronto
             </motion.div>
@@ -522,7 +552,7 @@ export default function PowerInPracticeWebsite() {
             </motion.div>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85 }} className="relative">
+          <motion.div initial={{ opacity: 1, y: 0 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85 }} className="relative">
             <div className="pip-hero-image relative h-[580px] overflow-hidden border border-stone-800 bg-stone-950">
               <Image
                 src="/case-study-1.jpg"
@@ -888,6 +918,35 @@ export default function PowerInPracticeWebsite() {
         </div>
       </Section>
 
+      <Section id="synthesis" eyebrow="Work with ChatGPT" title="Synthesis Builder" subtitle="This helper turns the four websites into one clear research story while keeping the tone personal and believable.">
+        <div className="grid gap-6 lg:grid-cols-[.9fr_1.1fr]">
+          <Card>
+            <h3 className="mb-4 text-2xl font-semibold">Local Summary</h3>
+            <p className="leading-8 text-stone-300">
+              The project starts from photos and lux readings, then moves toward control rules, cost estimates, and a short research reflection. The practical question is simple: when does light or electricity use match real behavior, and when does it become waste?
+            </p>
+            <div className="mt-8 grid gap-3 font-mono text-[11px] uppercase text-stone-400 sm:grid-cols-3">
+              <span className="border border-stone-800 bg-stone-950/60 p-3"><b className="block text-amber-100">EE</b> light / load / control</span>
+              <span className="border border-stone-800 bg-stone-950/60 p-3"><b className="block text-amber-100">SYDE</b> people / context / feedback</span>
+              <span className="border border-stone-800 bg-stone-950/60 p-3"><b className="block text-amber-100">IE</b> cost / priority / efficiency</span>
+            </div>
+          </Card>
+          <Card>
+            <h3 className="mb-4 text-2xl font-semibold">Reflection Prompt</h3>
+            <p className="leading-8 text-stone-400">
+              Copy this prompt into ChatGPT Desktop after you collect new field data. It will help turn your observations into a short project reflection without sounding too forced.
+            </p>
+            <button
+              type="button"
+              onClick={copyReflectionPrompt}
+              className="pip-action mt-8 inline-flex min-h-12 items-center gap-2 bg-amber-100 px-6 font-semibold text-black transition hover:bg-stone-50"
+            >
+              <Sparkles size={18} /> {promptCopyState}
+            </button>
+          </Card>
+        </div>
+      </Section>
+
       <Section id="findings" eyebrow="Findings" title="Six Research Takeaways" subtitle="The analysis shows that electricity waste is behavioral, spatial, economic, and systemic at the same time.">
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {findings.map(([title, body], index) => (
@@ -919,7 +978,7 @@ export default function PowerInPracticeWebsite() {
       </Section>
 
       <Section id="future" eyebrow="Future Notes" title="Next Version of the Study" subtitle="Future versions could add more direct measurements, more photographs, and richer interactive tools.">
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {["Real smart meter household data", "Light intensity sensor measurements", "Multiple Toronto neighborhoods", "Predictive demand models", "Ontario live data dashboard", "Rule-based scheduling reminders"].map((item) => (
             <Card key={item}><p className="text-lg font-semibold leading-8">{item}</p></Card>
           ))}
@@ -927,17 +986,18 @@ export default function PowerInPracticeWebsite() {
       </Section>
 
       <Section id="constellation" eyebrow="Connected Notes" title="The Same Curiosity, Different Interfaces" subtitle="These projects work together as one toolkit: collect field evidence, estimate cost, understand causes, and test a response.">
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {[
             [NOCTIS_URL, "NOCTIS", "Collect field evidence with photos, lux notes, activity labels, and map locations.", "Collect"],
-            [SMARTENERGY_URL, "SmartEnergy", "Estimate how timing and repeated behavior can change cost and peak demand.", "Estimate"],
             [LUMEN_SHIFT_URL, "Lumen Shift", "Prototype a response rule for dimming, scheduling, and motion-based brightness.", "Test"],
+            [SMARTENERGY_URL, "SmartEnergy", "Estimate how timing and repeated behavior can change cost and peak demand.", "Estimate"],
+            ["#home", "Power in Practice", "Connect field evidence, energy data, decisions, and reflection into one research story.", "Synthesize"],
           ].map(([href, title, body, label]) => (
             <motion.a
               key={title}
               href={href}
-              target="_blank"
-              rel="noreferrer"
+              target={String(href).startsWith("#") ? undefined : "_blank"}
+              rel={String(href).startsWith("#") ? undefined : "noreferrer"}
               variants={fadeUp}
               whileHover={{ y: -6, rotateX: 2, rotateY: -2 }}
               className="pip-link-card group relative min-h-72 overflow-hidden border border-stone-800 bg-[#11100d] p-6"
