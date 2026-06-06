@@ -542,6 +542,13 @@ export default function PowerInPracticeWebsite() {
             <motion.p variants={fadeUp} className="mt-5 max-w-2xl text-base leading-8 text-stone-500">
               A curiosity-led study connecting nighttime field observation, Ontario pricing data, and small practical ways to understand everyday power use.
             </motion.p>
+            <motion.div variants={fadeUp} className="mt-7 grid max-w-2xl grid-cols-2 gap-px border border-stone-800 bg-stone-800 font-mono text-[11px] uppercase tracking-[0.14em] text-stone-400 sm:grid-cols-4">
+              {["Observe", "Measure", "Estimate", "Reflect"].map((item) => (
+                <span key={item} className="bg-[#090806]/90 px-4 py-3 text-center">
+                  {item}
+                </span>
+              ))}
+            </motion.div>
             <motion.div variants={fadeUp} className="mt-9 flex flex-col gap-3 sm:flex-row">
               <a href="#data" className="pip-action group inline-flex min-h-12 items-center justify-center gap-2 bg-amber-100 px-6 font-semibold text-black transition hover:bg-stone-50">
                 Explore Data <ArrowRight className="transition group-hover:translate-x-1" size={18} />
