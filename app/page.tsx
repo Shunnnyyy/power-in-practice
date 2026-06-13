@@ -164,7 +164,7 @@ Please write:
 4. what I learned about light, energy, people, and efficiency;
 5. one next step that sounds realistic and not too overclaimed.
 
-Tone: personal, curious, professional, and believable. Do not make it sound like I only did this for university applications.`;
+Tone: personal, curious, professional, and believable. Do not make it sound over-polished or forced.`;
 
 const reportIncludes = [
   "Abstract",
@@ -933,9 +933,9 @@ export default function PowerInPracticeWebsite() {
               The project starts from photos and lux readings, then moves toward control rules, cost estimates, and a short research reflection. The practical question is simple: when does light or electricity use match real behavior, and when does it become waste?
             </p>
             <div className="mt-8 grid gap-3 font-mono text-[11px] uppercase text-stone-400 sm:grid-cols-3">
-              <span className="border border-stone-800 bg-stone-950/60 p-3"><b className="block text-amber-100">EE</b> light / load / control</span>
-              <span className="border border-stone-800 bg-stone-950/60 p-3"><b className="block text-amber-100">SYDE</b> people / context / feedback</span>
-              <span className="border border-stone-800 bg-stone-950/60 p-3"><b className="block text-amber-100">IE</b> cost / priority / efficiency</span>
+              <span className="border border-stone-800 bg-stone-950/60 p-3"><b className="block text-amber-100">Signal</b> light / load / control</span>
+              <span className="border border-stone-800 bg-stone-950/60 p-3"><b className="block text-amber-100">Context</b> people / place / feedback</span>
+              <span className="border border-stone-800 bg-stone-950/60 p-3"><b className="block text-amber-100">Decision</b> cost / priority / efficiency</span>
             </div>
           </Card>
           <Card>
