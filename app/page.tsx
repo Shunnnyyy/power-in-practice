@@ -1007,7 +1007,7 @@ export default function PowerInPracticeWebsite() {
               rel={String(href).startsWith("#") ? undefined : "noreferrer"}
               variants={fadeUp}
               whileHover={{ y: -6, rotateX: 2, rotateY: -2 }}
-              className="pip-link-card group relative min-h-72 overflow-hidden border border-stone-800 bg-[#11100d] p-6"
+              className="pip-link-card pip-current-line group relative min-h-72 overflow-hidden border border-stone-800 bg-[#11100d] p-6"
             >
               <div className="absolute inset-0 opacity-35 transition duration-500 group-hover:opacity-70">
                 <svg aria-hidden="true" viewBox="0 0 520 320" className="h-full w-full">

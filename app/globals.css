@@ -160,6 +160,30 @@ html {
   transform: translateX(120%);
 }
 
+.pip-current-line {
+  position: relative;
+  overflow: hidden;
+}
+
+.pip-current-line::after {
+  content: "";
+  position: absolute;
+  left: -40%;
+  right: -40%;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(246, 220, 166, .86), transparent);
+  opacity: 0;
+  transform: translateX(-45%);
+  transition: opacity 180ms ease;
+}
+
+.pip-current-line:hover::after,
+.pip-current-line:focus-visible::after {
+  opacity: 1;
+  animation: pip-card-current 1.9s ease-in-out infinite;
+}
+
 .pip-hero-image img {
   transition: transform 700ms ease, filter 700ms ease;
 }
@@ -199,5 +223,22 @@ html {
   }
   72% {
     text-shadow: 1px 0 rgba(248, 245, 238, .38), -1px 0 rgba(246, 220, 166, .38);
+  }
+}
+
+@keyframes pip-card-current {
+  0%, 100% {
+    transform: translateX(-45%);
+  }
+
+  50% {
+    transform: translateX(45%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pip-current-line:hover::after,
+  .pip-current-line:focus-visible::after {
+    animation: none;
   }
 }
