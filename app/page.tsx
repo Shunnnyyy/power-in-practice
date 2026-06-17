@@ -908,7 +908,7 @@ export default function PowerInPracticeWebsite() {
       </Section>
 
       <Section id="playbook" eyebrow="Practical Playbook" title="A Simple Decision Loop for Real Places" subtitle="The project becomes useful when every observation ends with a small, testable next step instead of only a description.">
-        <div className="grid gap-0 border-y border-stone-800 md:grid-cols-4">
+        <div className="pip-flow-loop grid gap-0 border-y border-stone-800 md:grid-cols-4">
           {actionPlaybook.map(([title, body], index) => (
             <motion.div
               key={title}

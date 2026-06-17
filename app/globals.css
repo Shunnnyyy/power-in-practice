@@ -13,10 +13,25 @@
 }
 
 body {
+  position: relative;
   background: var(--background);
   color: var(--foreground);
   font-family: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
   line-height: 1.6;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: -12%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 16% 22%, rgba(246, 220, 166, .12), transparent 22%),
+    radial-gradient(ellipse at 80% 16%, rgba(141, 168, 189, .1), transparent 20%),
+    repeating-conic-gradient(from 30deg at 50% 44%, rgba(246, 220, 166, .035) 0deg 1deg, transparent 1deg 9deg);
+  opacity: .65;
+  animation: pip-field-drift 24s ease-in-out infinite alternate;
 }
 
 html {
@@ -188,6 +203,21 @@ html {
   transition: transform 700ms ease, filter 700ms ease;
 }
 
+.pip-hero-image::before {
+  content: "";
+  position: absolute;
+  left: -30%;
+  right: -30%;
+  top: 22%;
+  z-index: 2;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(246, 220, 166, .82), transparent);
+  opacity: .42;
+  transform: translateX(-40%) rotate(-4deg);
+  animation: pip-hero-current 6.2s cubic-bezier(.65, 0, .35, 1) infinite;
+}
+
 .pip-hero-image:hover img {
   filter: grayscale(1) contrast(1.55);
   transform: scale(1.08);
@@ -209,6 +239,24 @@ html {
 
 .pip-data-row:hover * {
   color: #f8f5ee;
+}
+
+.pip-flow-loop {
+  position: relative;
+  overflow: hidden;
+}
+
+.pip-flow-loop::after {
+  content: "";
+  position: absolute;
+  left: -20%;
+  top: 50%;
+  width: 22%;
+  height: 2px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(246, 220, 166, .86), transparent);
+  opacity: .5;
+  animation: pip-loop-current 7s ease-in-out infinite;
 }
 
 @keyframes pip-glitch {
@@ -236,7 +284,44 @@ html {
   }
 }
 
+@keyframes pip-field-drift {
+  0% {
+    transform: translate3d(-1%, 1%, 0) rotate(-1deg) scale(1);
+  }
+
+  100% {
+    transform: translate3d(1%, -1%, 0) rotate(1deg) scale(1.05);
+  }
+}
+
+@keyframes pip-hero-current {
+  0%,
+  10% {
+    transform: translateX(-40%) rotate(-4deg);
+  }
+
+  70%,
+  100% {
+    transform: translateX(40%) rotate(3deg);
+  }
+}
+
+@keyframes pip-loop-current {
+  0%,
+  16% {
+    transform: translateX(0) skewX(-18deg);
+  }
+
+  74%,
+  100% {
+    transform: translateX(560%) skewX(-18deg);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  body::before,
+  .pip-hero-image::before,
+  .pip-flow-loop::after,
   .pip-current-line:hover::after,
   .pip-current-line:focus-visible::after {
     animation: none;
