@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -8,15 +9,15 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
+  --font-sans: "IBM Plex Sans", "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
 }
 
 body {
   position: relative;
   background: var(--background);
   color: var(--foreground);
-  font-family: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
+  font-family: "IBM Plex Sans", "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
   line-height: 1.6;
 }
 
@@ -32,6 +33,16 @@ body::before {
     repeating-conic-gradient(from 30deg at 50% 44%, rgba(246, 220, 166, .035) 0deg 1deg, transparent 1deg 9deg);
   opacity: .65;
   animation: pip-field-drift 24s ease-in-out infinite alternate;
+}
+
+@media (max-width: 700px) {
+  body::before {
+    opacity: .38;
+  }
+
+  .pip-hero-image::before {
+    opacity: .24;
+  }
 }
 
 html {
